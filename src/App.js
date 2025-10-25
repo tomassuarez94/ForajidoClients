@@ -97,14 +97,7 @@ export default function MusicRequestApp() {
             <h2 className="text-2xl font-bold text-gray-800">Panel de Administrador</h2>
           </div>
           <div>
-            <input
-              type="password"
-              placeholder="Contraseña"
-              value={adminPassword}
-              onChange={(e) => setAdminPassword(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && adminPassword === ADMIN_PASSWORD && setIsAdmin(true)}
-              className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-purple-500 mb-4"
-            />
+            
             <button
               onClick={handleGoogleLogin}
               className="w-full bg-gradient-to-r from-[#C6A664] to-[#BFA76F] text-black font-semibold py-4 rounded-xl text-lg tracking-wide shadow-md hover:brightness-110 transition-all duration-300"
