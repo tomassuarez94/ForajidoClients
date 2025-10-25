@@ -91,27 +91,28 @@ export default function MusicRequestApp() {
   if (view === 'admin' && !isAdmin) {
     return (
       <div className="min-h-screen bg-forajido-premium flex items-center justify-center p-4">
-        <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md">
+        <div className="bg-[#CFCFCF]/90 rounded-2xl shadow-2xl p-8 w-full max-w-md">
           <div className="text-center mb-6">
             <List className="w-16 h-16 text-purple-600 mx-auto mb-4" />
             <h2 className="text-2xl font-bold text-gray-800">Panel de Administrador</h2>
           </div>
           <div>
-            
+
             <button
               onClick={handleGoogleLogin}
               className="w-full bg-gradient-to-r from-[#C6A664] to-[#BFA76F] text-black font-semibold py-4 rounded-xl text-lg tracking-wide shadow-md hover:brightness-110 transition-all duration-300"
             >
-              Iniciar sesión con Google
+              Login
             </button>
 
-            <button
-              onClick={handleLogout}
-              className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors"
-            >
-              Salir
-            </button>
-
+            <div className="flex justify-center mt-6">
+              <button
+                onClick={() => { setIsAdmin(false); setView('client'); }}
+                className="bg-gray-600 text-white px-5 py-2 rounded-lg hover:bg-gray-700 transition-colors"
+              >
+                Salir
+              </button>
+            </div>
           </div>
         </div>
       </div>
