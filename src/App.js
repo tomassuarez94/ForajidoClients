@@ -12,6 +12,8 @@ import {
   orderBy
 } from 'firebase/firestore';
 import logo from './logo.png';
+import { getAuth, signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
+
 
 
 export default function MusicRequestApp() {
@@ -55,6 +57,24 @@ export default function MusicRequestApp() {
     }
   };
 
+  const auth = getAuth();
+  const provider = new GoogleAuthProvider();
+
+  const handleGoogleLogin = async () => {
+    try {
+      await signInWithPopup(auth, provider);
+      setIsAdmin(true);
+    } catch (error) {
+      console.error("Error en login:", error);
+    }
+  };
+
+  const handleLogout = async () => {
+    await signOut(auth);
+    setIsAdmin(false);
+  };
+
+
   const handleDeleteRequest = async (id) => {
     try {
       await deleteDoc(doc(db, 'requests', id));
@@ -86,17 +106,19 @@ export default function MusicRequestApp() {
               className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-purple-500 mb-4"
             />
             <button
-              onClick={() => adminPassword === ADMIN_PASSWORD && setIsAdmin(true)}
-              className="w-full bg-purple-600 text-white py-3 rounded-lg font-semibold hover:bg-purple-700 transition-colors mb-3"
+              onClick={handleGoogleLogin}
+              className="w-full bg-gradient-to-r from-[#C6A664] to-[#BFA76F] text-black font-semibold py-4 rounded-xl text-lg tracking-wide shadow-md hover:brightness-110 transition-all duration-300"
             >
-              Entrar
+              Iniciar sesión con Google
             </button>
+
             <button
-              onClick={() => setView('client')}
-              className="w-full bg-gray-200 text-gray-700 py-3 rounded-lg font-semibold hover:bg-gray-300 transition-colors"
+              onClick={handleLogout}
+              className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors"
             >
-              Volver
+              Salir
             </button>
+
           </div>
         </div>
       </div>
