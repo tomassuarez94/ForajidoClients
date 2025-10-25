@@ -22,7 +22,8 @@ export default function MusicRequestApp() {
   const [requests, setRequests] = useState([]);
   const [adminPassword, setAdminPassword] = useState('');
   const [isAdmin, setIsAdmin] = useState(false);
-  const ADMIN_PASSWORD = 'admin2026*';
+  const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD;
+
 
   useEffect(() => {
     if (isAdmin) {
