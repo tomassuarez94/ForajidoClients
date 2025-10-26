@@ -1,6 +1,6 @@
 // ✅ App.js
 import React, { useState, useEffect } from 'react';
-import { Music, Send, CheckCircle, List, Trash2, Wine, MessageSquare  } from 'lucide-react';
+import { Music, Send, CheckCircle, List, Trash2, Wine, MessageSquare } from 'lucide-react';
 import { db } from './firebase';
 import {
   collection,
@@ -285,6 +285,17 @@ export default function MusicRequestApp() {
               <Send className="w-5 h-5" />
               Enviar Solicitud
             </button>
+
+            <div className="flex justify-center mt-6">
+              <button
+                onClick={() => { setIsAdmin(false); setView('client'); setSection('home'); }}
+                className="bg-gray-600 text-white px-5 py-2 rounded-lg hover:bg-gray-700 transition-colors"
+              >
+                Salir
+              </button>
+            </div>
+
+
           </div>
         )}
 
