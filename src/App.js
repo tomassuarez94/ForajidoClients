@@ -1,6 +1,6 @@
 // ✅ App.js
 import React, { useState, useEffect } from 'react';
-import { Music, Send, CheckCircle, List, Trash2 } from 'lucide-react';
+import { Music, Send, CheckCircle, List, Trash2, Wine, MessageSquare  } from 'lucide-react';
 import { db } from './firebase';
 import {
   collection,
@@ -16,7 +16,11 @@ import { getAuth, signInWithPopup, GoogleAuthProvider, signOut } from "firebase/
 
 
 
+
+
 export default function MusicRequestApp() {
+  // debajo de: export default function MusicRequestApp() {
+  const [section, setSection] = useState('home'); // 'home' | 'client' | 'promos' | 'admin'
   const [view, setView] = useState('client');
   const [clientName, setClientName] = useState('');
   const [songRequest, setSongRequest] = useState('');
@@ -88,6 +92,77 @@ export default function MusicRequestApp() {
     return date.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
   };
 
+
+  // ⬇️ Home
+  if (section === 'home') {
+    return (
+      <div className="min-h-screen bg-forajido-premium flex items-center justify-center p-6">
+        <div className="bg-[#141414]/90 backdrop-blur-md border border-[#C6A664]/30 rounded-3xl shadow-xl p-10 w-full max-w-md text-center text-[#F5F5F5]">
+          {/* LOGO */}
+          <img
+            src={logo}
+            alt="Forajido Bar Logo"
+            className="w-24 h-24 mx-auto mb-6 object-contain drop-shadow-[0_0_12px_rgba(198,166,100,0.3)]"
+          />
+
+          {/* TÍTULO */}
+          <h1 className="text-3xl font-bold text-[#FFD166] mb-10 tracking-wide">
+            Bienvenido a Forajido
+          </h1>
+
+          {/* BOTONES */}
+          <div className="space-y-5">
+            {/* 🥂 Promos */}
+            <a
+              href="https://drive.google.com/file/d/14JAXOWQUb0jrC0Tl672H1DV3eypo3QVA/view?usp=sharing"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-3 w-full bg-gradient-to-r from-[#C6A664] to-[#BFA76F] text-black font-semibold py-4 rounded-xl hover:brightness-110 transition-all duration-300 shadow-md"
+            >
+              <Wine className="w-5 h-5 text-black" />
+              <span>Promociones 2x1</span>
+            </a>
+
+            {/* 🎶 Solicitar canción */}
+            <button
+              onClick={() => setSection('client')}
+              className="flex items-center justify-center gap-3 w-full bg-[#0A0A0A] text-[#FFD166] font-semibold py-4 rounded-xl hover:bg-[#1E1E1E] transition-all duration-300 shadow-md border border-[#C6A664]/40"
+            >
+              <Music className="w-5 h-5 text-[#FFD166]" />
+              <span>Solicitar canción</span>
+            </button>
+
+            {/* 💬 Califica tu visita */}
+            <a
+              href="https://tally.so/r/w5yrod"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-3 w-full bg-gradient-to-r from-[#D4AF37] to-[#A67C00] text-black font-semibold py-4 rounded-xl hover:brightness-110 transition-all duration-300 shadow-md"
+            >
+              <MessageSquare className="w-5 h-5 text-black" />
+              <span>Califica tu visita</span>
+            </a>
+          </div>
+
+          {/* Acceso Admin */}
+          <button
+            onClick={() => {
+              setView('admin');
+              setSection('admin');
+            }}
+            className="w-full mt-8 text-[#cfcfcf] text-sm hover:text-white transition-colors"
+          >
+            Acceso administrador
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+
+
+
+
   if (view === 'admin' && !isAdmin) {
     return (
       <div className="min-h-screen bg-forajido-premium flex items-center justify-center p-4">
@@ -107,7 +182,7 @@ export default function MusicRequestApp() {
 
             <div className="flex justify-center mt-6">
               <button
-                onClick={() => { setIsAdmin(false); setView('client'); }}
+                onClick={() => { setIsAdmin(false); setView('client'); setSection('home'); }}
                 className="bg-gray-600 text-white px-5 py-2 rounded-lg hover:bg-gray-700 transition-colors"
               >
                 Salir
@@ -126,7 +201,7 @@ export default function MusicRequestApp() {
           <div className="bg-white rounded-2xl shadow-2xl p-6 mb-4 flex justify-between items-center">
             <h2 className="text-2xl font-bold text-gray-800">Solicitudes de Música</h2>
             <button
-              onClick={() => { setIsAdmin(false); setView('client'); }}
+              onClick={() => { setIsAdmin(false); setView('client'); setSection('home'); }}
               className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors"
             >
               Salir
@@ -210,24 +285,6 @@ export default function MusicRequestApp() {
               <Send className="w-5 h-5" />
               Enviar Solicitud
             </button>
-            <div className="mt-10 text-center">
-              <h3 className="text-lg font-semibold text-gray-800 mb-3">
-                ¿Te gustó nuestro servicio?
-              </h3>
-              <p className="text-gray-600 mb-5">
-                Cuéntanos cómo fue tu experiencia 
-              </p>
-              <a
-                href="https://tally.so/r/w5yrod" 
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block bg-gradient-to-r from-[#C6A664] to-[#BFA76F] text-black font-semibold px-8 py-3 rounded-xl hover:brightness-110 transition-all duration-300 shadow-md"
-              >
-                Califica nuestro servicio
-              </a>
-            </div>
-
-
           </div>
         )}
 
