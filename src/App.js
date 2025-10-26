@@ -218,7 +218,7 @@ export default function MusicRequestApp() {
                 Cuéntanos cómo fue tu experiencia 
               </p>
               <a
-                href="https://tally.so/r/w5yrod" // 👈 reemplaza con tu enlace de Tally
+                href="https://tally.so/r/w5yrod" 
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-block bg-gradient-to-r from-[#C6A664] to-[#BFA76F] text-black font-semibold px-8 py-3 rounded-xl hover:brightness-110 transition-all duration-300 shadow-md"
