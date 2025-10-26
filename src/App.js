@@ -210,6 +210,23 @@ export default function MusicRequestApp() {
               <Send className="w-5 h-5" />
               Enviar Solicitud
             </button>
+            <div className="mt-10 text-center">
+              <h3 className="text-lg font-semibold text-gray-800 mb-3">
+                ¿Te gustó nuestro servicio?
+              </h3>
+              <p className="text-gray-600 mb-5">
+                Cuéntanos cómo fue tu experiencia 
+              </p>
+              <a
+                href="https://tally.so/r/w5yrod" // 👈 reemplaza con tu enlace de Tally
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block bg-gradient-to-r from-[#C6A664] to-[#BFA76F] text-black font-semibold px-8 py-3 rounded-xl hover:brightness-110 transition-all duration-300 shadow-md"
+              >
+                Califica nuestro servicio
+              </a>
+            </div>
+
 
           </div>
         )}
