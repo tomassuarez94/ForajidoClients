@@ -1,6 +1,5 @@
-
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, enableIndexedDbPersistence } from "firebase/firestore";
 
 const firebaseConfig = {
     apiKey: "AIzaSyC8mwJ_0cp8S_p4ph2oxGEwZm-JBqhrZrg",
@@ -12,4 +11,9 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-export const db = getFirestore(app);
+const db = getFirestore(app);
+
+enableIndexedDbPersistence(db).catch((err) => {
+  console.warn("Persistencia no habilitada:", err.code);
+});
+export { db };

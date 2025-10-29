@@ -99,6 +99,19 @@ export default function MusicRequestApp() {
   const auth = getAuth();
   const provider = new GoogleAuthProvider();
 
+  useEffect(() => {
+    const auth = getAuth();
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        setIsAdmin(true);
+      } else {
+        setIsAdmin(false);
+      }
+    });
+    return () => unsubscribe();
+  }, []);
+
+
   const handleGoogleLogin = async () => {
     try {
       await signInWithPopup(auth, provider);
