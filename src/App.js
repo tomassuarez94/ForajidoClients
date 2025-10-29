@@ -31,16 +31,51 @@ export default function MusicRequestApp() {
   const ADMIN_PASSWORD = process.env.REACT_APP_ADMIN_PASSWORD;
 
 
+  // 🔔 Pedir permiso de notificación una vez
+  useEffect(() => {
+    if (Notification.permission !== "granted") {
+      Notification.requestPermission();
+    }
+  }, []);
+
+
 
   useEffect(() => {
     if (isAdmin) {
       const q = query(collection(db, 'requests'), orderBy('timestamp', 'desc'));
+      let firstLoad = true;
+      let previousIds = [];
+
       const unsubscribe = onSnapshot(q, (snapshot) => {
-        setRequests(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+        const newRequests = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+
+        // Si no es la primera carga, compara para detectar nuevos registros
+        if (!firstLoad) {
+          const newOnes = newRequests.filter(r => !previousIds.includes(r.id));
+          if (newOnes.length > 0) {
+            const latest = newOnes[0];
+            // ✅ Mostrar notificación nativa
+            if (Notification.permission === "granted") {
+              const notif = new Notification("🎵 Nueva canción solicitada", {
+                body: `${latest.name} pidió: ${latest.song}`,
+                icon: "/logo.png",
+              });
+              if (window.navigator.vibrate) navigator.vibrate(200);
+            }
+
+          }
+        } else {
+          firstLoad = false;
+        }
+
+        previousIds = newRequests.map(r => r.id);
+        setRequests(newRequests);
       });
+
       return () => unsubscribe();
     }
   }, [isAdmin]);
+
 
   const handleSubmitRequest = async () => {
     if (!clientName.trim() || !songRequest.trim()) return;
