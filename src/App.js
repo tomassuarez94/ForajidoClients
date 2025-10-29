@@ -47,8 +47,9 @@ export default function MusicRequestApp() {
       const q = query(collection(db, "requests"), orderBy("timestamp", "desc"));
       let firstLoad = true;
       let previousIds = [];
+      let lastData = [];
 
-      // 🧠 Escuchar en tiempo real
+      // 🔁 Escucha en tiempo real (mientras esté activa)
       const unsubscribe = onSnapshot(
         q,
         (snapshot) => {
@@ -57,50 +58,60 @@ export default function MusicRequestApp() {
             ...doc.data(),
           }));
 
-          // Detectar nuevas solicitudes
+          // Detectar nuevos registros para notificar
           if (!firstLoad) {
             const newOnes = newRequests.filter(
               (r) => !previousIds.includes(r.id)
             );
-            if (newOnes.length > 0) {
+            if (newOnes.length > 0 && Notification.permission === "granted") {
               const latest = newOnes[0];
-              if (Notification.permission === "granted") {
-                new Notification("🎵 Nueva canción solicitada", {
-                  body: `${latest.name} pidió: ${latest.song}`,
-                  icon: "/logo.png",
-                });
-                if (window.navigator.vibrate) navigator.vibrate(200);
-              }
+              new Notification("🎵 Nueva canción solicitada", {
+                body: `${latest.name} pidió: ${latest.song}`,
+                icon: "/logo.png",
+              });
+              if (window.navigator.vibrate) navigator.vibrate(200);
             }
           } else {
             firstLoad = false;
           }
 
           previousIds = newRequests.map((r) => r.id);
+          lastData = newRequests;
           setRequests(newRequests);
         },
         (error) => {
-          console.error("🔥 Error Firestore snapshot:", error);
+          console.error("🔥 Firestore snapshot error:", error);
         }
       );
 
-      // ⚡ "Keep-alive" para evitar que Firestore se duerma en móviles
-      const keepAlive = setInterval(async () => {
+      // ⚡ Refresco activo cada 15 segundos (si el snapshot se duerme)
+      const interval = setInterval(async () => {
         try {
-          // Este ping liviano evita que la conexión se cierre
-          await getDocs(q);
-          console.log("Manteniendo viva la conexión con Firestore...");
+          const docsSnap = await getDocs(q);
+          const refreshedData = docsSnap.docs.map((d) => ({
+            id: d.id,
+            ...d.data(),
+          }));
+
+          // Si hay cambios respecto al último snapshot, actualiza manualmente
+          const changed =
+            JSON.stringify(refreshedData) !== JSON.stringify(lastData);
+          if (changed) {
+            console.log("📲 Refrescando datos móviles...");
+            setRequests(refreshedData);
+          }
         } catch (err) {
-          console.warn("Keep-alive falló:", err.message);
+          console.warn("❌ Error en refresco manual:", err.message);
         }
-      }, 30000); // cada 30 segundos
+      }, 15000); // cada 15 segundos
 
       return () => {
         unsubscribe();
-        clearInterval(keepAlive);
+        clearInterval(interval);
       };
     }
   }, [isAdmin]);
+
 
 
 
