@@ -9,8 +9,10 @@ import {
   doc,
   onSnapshot,
   query,
-  orderBy
+  orderBy,
+  getDocs
 } from 'firebase/firestore';
+
 import logo from './logo.png';
 import { getAuth, signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
 
