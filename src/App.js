@@ -42,39 +42,64 @@ export default function MusicRequestApp() {
 
   useEffect(() => {
     if (isAdmin) {
-      const q = query(collection(db, 'requests'), orderBy('timestamp', 'desc'));
+      const q = query(collection(db, "requests"), orderBy("timestamp", "desc"));
       let firstLoad = true;
       let previousIds = [];
 
-      const unsubscribe = onSnapshot(q, (snapshot) => {
-        const newRequests = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      // 🧠 Escuchar en tiempo real
+      const unsubscribe = onSnapshot(
+        q,
+        (snapshot) => {
+          const newRequests = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
 
-        // Si no es la primera carga, compara para detectar nuevos registros
-        if (!firstLoad) {
-          const newOnes = newRequests.filter(r => !previousIds.includes(r.id));
-          if (newOnes.length > 0) {
-            const latest = newOnes[0];
-            // ✅ Mostrar notificación nativa
-            if (Notification.permission === "granted") {
-              const notif = new Notification("🎵 Nueva canción solicitada", {
-                body: `${latest.name} pidió: ${latest.song}`,
-                icon: "/logo.png",
-              });
-              if (window.navigator.vibrate) navigator.vibrate(200);
+          // Detectar nuevas solicitudes
+          if (!firstLoad) {
+            const newOnes = newRequests.filter(
+              (r) => !previousIds.includes(r.id)
+            );
+            if (newOnes.length > 0) {
+              const latest = newOnes[0];
+              if (Notification.permission === "granted") {
+                new Notification("🎵 Nueva canción solicitada", {
+                  body: `${latest.name} pidió: ${latest.song}`,
+                  icon: "/logo.png",
+                });
+                if (window.navigator.vibrate) navigator.vibrate(200);
+              }
             }
-
+          } else {
+            firstLoad = false;
           }
-        } else {
-          firstLoad = false;
+
+          previousIds = newRequests.map((r) => r.id);
+          setRequests(newRequests);
+        },
+        (error) => {
+          console.error("🔥 Error Firestore snapshot:", error);
         }
+      );
 
-        previousIds = newRequests.map(r => r.id);
-        setRequests(newRequests);
-      });
+      // ⚡ "Keep-alive" para evitar que Firestore se duerma en móviles
+      const keepAlive = setInterval(async () => {
+        try {
+          // Este ping liviano evita que la conexión se cierre
+          await getDocs(q);
+          console.log("Manteniendo viva la conexión con Firestore...");
+        } catch (err) {
+          console.warn("Keep-alive falló:", err.message);
+        }
+      }, 30000); // cada 30 segundos
 
-      return () => unsubscribe();
+      return () => {
+        unsubscribe();
+        clearInterval(keepAlive);
+      };
     }
   }, [isAdmin]);
+
 
 
   const handleSubmitRequest = async () => {
