@@ -340,8 +340,8 @@ export default function MusicRequestApp() {
         {submitted ? (
           <div className="text-center py-8">
             <CheckCircle className="w-20 h-20 text-green-500 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold text-gray-800 mb-2">¡Solicitud Enviada!</h2>
-            <p className="text-gray-600">El DJ revisará tu petición</p>
+            <h2 className="text-2xl font-bold text-white-800 mb-2">¡Solicitud Enviada!</h2>
+            <p className="text-white-600">El DJ revisará tu petición</p>
           </div>
         ) : (
           <div className="space-y-5">
