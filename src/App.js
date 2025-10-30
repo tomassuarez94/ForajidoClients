@@ -325,7 +325,7 @@ export default function MusicRequestApp() {
 
   return (
     <div className="min-h-screen bg-forajido-premium flex items-center justify-center p-4">
-      <div className="bg-[#CFCFCF]/90 backdrop-blur-md border border-[#C6A664]/20 rounded-2xl shadow-lg shadow-black/50 p-8 w-full max-w-md text-[#F5F5F5]">
+      <div className="bg-[#141414]/90 backdrop-blur-md border border-[#C6A664]/30 rounded-3xl shadow-xl p-10 w-full max-w-md text-center text-[#F5F5F5]">
         <div className="text-center mb-8">
           <img
             src={logo}
@@ -333,8 +333,8 @@ export default function MusicRequestApp() {
             className="w-24 h-24 mx-auto mb-4 object-contain drop-shadow-[0_0_12px_rgba(198,166,100,0.3)]"
           />
 
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">Solicita tu Canción</h1>
-          <p className="text-gray-600">¿Qué te gustaría escuchar?</p>
+          <h1 className="text-3xl font-bold text-[#FFD166] mb-2">Solicita tu Canción</h1>
+          <p className="text-white-600">¿Qué te gustaría escuchar?</p>
         </div>
 
         {submitted ? (
@@ -346,7 +346,7 @@ export default function MusicRequestApp() {
         ) : (
           <div className="space-y-5">
             <div>
-              <label className="block text-gray-700 font-semibold mb-2">Tu Nombre</label>
+              <label className="block text-white-700 font-semibold mb-2">Tu Nombre</label>
               <input
                 type="text"
                 placeholder="Ej: Juan"
