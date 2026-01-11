@@ -35,10 +35,13 @@ export default function MusicRequestApp() {
 
   // 🔔 Pedir permiso de notificación una vez
   useEffect(() => {
-    if (Notification.permission !== "granted") {
-      Notification.requestPermission();
+    if ("Notification" in window) {
+      if (Notification.permission !== "granted") {
+        Notification.requestPermission().catch(() => { });
+      }
     }
   }, []);
+
 
 
 
@@ -63,14 +66,23 @@ export default function MusicRequestApp() {
             const newOnes = newRequests.filter(
               (r) => !previousIds.includes(r.id)
             );
-            if (newOnes.length > 0 && Notification.permission === "granted") {
+            if (
+              newOnes.length > 0 &&
+              "Notification" in window &&
+              Notification.permission === "granted"
+            ) {
               const latest = newOnes[0];
+
               new Notification("🎵 Nueva canción solicitada", {
                 body: `${latest.name} pidió: ${latest.song}`,
                 icon: "/logo.png",
               });
-              if (window.navigator.vibrate) navigator.vibrate(200);
+
+              if ("vibrate" in navigator) {
+                navigator.vibrate(200);
+              }
             }
+
           } else {
             firstLoad = false;
           }
