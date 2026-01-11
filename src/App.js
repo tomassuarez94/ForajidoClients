@@ -238,7 +238,7 @@ export default function MusicRequestApp() {
               className="flex items-center justify-center gap-3 w-full bg-gradient-to-r from-[#D4AF37] to-[#A67C00] text-black font-semibold py-4 rounded-xl hover:brightness-110 transition-all duration-300 shadow-md"
             >
               <MessageSquare className="w-5 h-5 text-black" />
-              <span>Gana un cóctel GRATIS en tu próxima visita</span>
+              <span>Gana un cóctel GRATIS</span>
             </a>
           </div>
 
