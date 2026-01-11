@@ -238,7 +238,7 @@ export default function MusicRequestApp() {
               className="flex items-center justify-center gap-3 w-full bg-gradient-to-r from-[#D4AF37] to-[#A67C00] text-black font-semibold py-4 rounded-xl hover:brightness-110 transition-all duration-300 shadow-md"
             >
               <MessageSquare className="w-5 h-5 text-black" />
-              <span>Califica tu visita</span>
+              <span>Gana un cóctel GRATIS en tu próxima visita</span>
             </a>
           </div>
 
@@ -337,7 +337,7 @@ export default function MusicRequestApp() {
 
   return (
     <div className="min-h-screen bg-forajido-premium flex items-center justify-center p-4">
-      <div className="bg-[#CFCFCF]/90 backdrop-blur-md border border-[#C6A664]/20 rounded-2xl shadow-lg shadow-black/50 p-8 w-full max-w-md text-[#F5F5F5]">
+      <div className="bg-[#141414]/90 backdrop-blur-md border border-[#C6A664]/30 rounded-3xl shadow-xl p-10 w-full max-w-md text-center text-[#F5F5F5]">
         <div className="text-center mb-8">
           <img
             src={logo}
@@ -345,20 +345,20 @@ export default function MusicRequestApp() {
             className="w-24 h-24 mx-auto mb-4 object-contain drop-shadow-[0_0_12px_rgba(198,166,100,0.3)]"
           />
 
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">Solicita tu Canción</h1>
-          <p className="text-gray-600">¿Qué te gustaría escuchar?</p>
+          <h1 className="text-3xl font-bold text-[#FFD166] mb-2">Solicita tu Canción</h1>
+          <p className="text-white-600">¿Qué te gustaría escuchar?</p>
         </div>
 
         {submitted ? (
           <div className="text-center py-8">
             <CheckCircle className="w-20 h-20 text-green-500 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold text-gray-800 mb-2">¡Solicitud Enviada!</h2>
-            <p className="text-gray-600">El DJ revisará tu petición</p>
+            <h2 className="text-2xl font-bold text-white-800 mb-2">¡Solicitud Enviada!</h2>
+            <p className="text-white-600">El DJ revisará tu petición</p>
           </div>
         ) : (
           <div className="space-y-5">
             <div>
-              <label className="block text-gray-700 font-semibold mb-2">Tu Nombre</label>
+              <label className="block text-white-700 font-semibold mb-2">Tu Nombre</label>
               <input
                 type="text"
                 placeholder="Ej: Juan"
