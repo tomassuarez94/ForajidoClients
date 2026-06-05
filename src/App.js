@@ -229,9 +229,9 @@ export default function MusicRequestApp() {
               <Music className="w-5 h-5 text-[#FFD166]" />
               <span>Solicitar canción</span>
             </button>
-
+            /*
             {/* 💬 Califica tu visita */}
-            <a
+            /*<a
               href="https://tally.so/r/w5yrod"
               target="_blank"
               rel="noopener noreferrer"
@@ -241,7 +241,7 @@ export default function MusicRequestApp() {
               <span>Gana un cóctel GRATIS</span>
             </a>
           </div>
-
+          */
           {/* Acceso Admin */}
           <button
             onClick={() => {
